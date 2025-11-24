@@ -39,3 +39,5 @@
 
 # debug information files
 *.dwo
+/build-DSA-Desktop_Qt_6_7_0_MSVC2019_64bit-Debug
+/build-LinkedList-Desktop_Qt_6_7_0_MSVC2019_64bit-Debug
