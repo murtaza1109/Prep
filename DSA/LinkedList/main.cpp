@@ -13,6 +13,12 @@ int main()
         myList.push_back(Node<int>(i));
     }
 
+    //myList.print();
+
+    //myList.reverse_iterative();
+    //myList.print();
+
+    myList.reverse_recursive();
     myList.print();
 
     return 0;
