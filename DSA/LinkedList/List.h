@@ -34,15 +34,18 @@ public:
 
     List();
 
-    void push_back(Node<T> value);
+    Node<T> *push_back(Node<T> value);
     void print();
     void reverse_iterative();
     void reverse_recursive();
-    bool doesLoopExist();
+
+    static bool doesLoopExist(List list);
+    static List<T> createLoopedList(int pos);
+
+    Node<T>* head;
+    Node<T>* tail;
 
 private:
-    Node<T>* head;
-
     Node<T>* findEnd();
     Node<T> *reverse_recursive(Node<T>* node);
 
@@ -55,7 +58,7 @@ List<T>::List() :
 }
 
 template <typename T>
-void List<T>::push_back(Node<T> value)
+Node<T>* List<T>::push_back(Node<T> value)
 {
     Node<T>* newNode = new Node<T>(value.data);
     Node<T>* end = findEnd();
@@ -68,6 +71,9 @@ void List<T>::push_back(Node<T> value)
     {
         end->next = newNode;
     }
+    tail = newNode;
+
+    return newNode;
 }
 
 template <typename T>
@@ -141,30 +147,46 @@ Node<T>* List<T>::findEnd()
 }
 
 template <typename T>
-bool List<T>::doesLoopExist()
+bool List<T>::doesLoopExist(List list)
 {
-    bool loopDetected = false;
-    Node<T>* slowPtr = head;
-    Node<T>* fastPtr = head;
+    if(!list.head) return false;
 
-    while(fastPtr || fastPtr->next)
+    Node<T>* slowPtr = list.head;
+    Node<T>* fastPtr = list.head;
+
+    while(fastPtr && fastPtr->next)
     {
         slowPtr = slowPtr->next;
-        if(slowPtr == fastPtr)
-        {
-            loopDetected = true;
-            break;
-        }
-
         fastPtr = fastPtr->next->next;
 
         if(slowPtr == fastPtr)
         {
-            loopDetected = true;
-            break;
+            return true;
         }
     }
-    return loopDetected;
+    return false;
+}
+
+template<typename T>
+List<T> List<T>::createLoopedList(int pos)
+{
+    Node<T>* midNode;
+    List <T> list;
+    for(int i=0;i<pos*2;i++)
+    {
+        if(i==pos)
+        {
+          midNode = list.push_back(i);
+        }
+        else
+        {
+            list.push_back(i);
+        }
+    }
+
+    list.tail->next = midNode;
+
+    return list;
 }
 
 #endif // LIST_H
