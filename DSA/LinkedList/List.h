@@ -39,9 +39,15 @@ public:
     void reverse_iterative();
     void reverse_recursive();
 
-    static bool doesLoopExist(List list);
     static List<T> createLoopedList(int pos);
+    static bool doesLoopExist(List list);
+    static Node<T>* getLoopStartingPoint(List list);
+    static int calculateLoopLength(List list);
+    static List reverse(List list);
+    static List<T> add(List a, List b);
 
+
+    int count{0};
     Node<T>* head;
     Node<T>* tail;
 
@@ -86,7 +92,7 @@ void List<T>::print()
         cout << temp->data << " ";
         temp = temp->next;
     }
-    cout << "\n";
+    cout << endl;
 }
 
 template<typename T>
@@ -98,10 +104,15 @@ void List<T>::reverse_iterative()
 
     while(current)
     {
+        // save next before reversing the link
         next = current->next;
+
+        //reverse the link
         current->next = prev;
-        prev = current;
-        current = next;
+
+        //update for next loop
+        prev = current;                
+        current = next;      
     }
 
     head = prev;
@@ -146,10 +157,38 @@ Node<T>* List<T>::findEnd()
     return end;
 }
 
+template<typename T>
+List<T> List<T>::createLoopedList(int pos)
+{
+    Node<T>* midNode;
+    List <T> list;
+    for(int i=0;i<pos*2;i++)
+    {
+        if(i==pos)
+        {
+            midNode = list.push_back(i);
+        }
+        else
+        {
+            list.push_back(i);
+        }
+    }
+
+    list.tail->next = midNode;
+
+    return list;
+}
+
 template <typename T>
 bool List<T>::doesLoopExist(List list)
 {
-    if(!list.head) return false;
+    return !(getLoopStartingPoint(list)==nullptr);
+}
+
+template<typename T>
+Node<T> *List<T>::getLoopStartingPoint(List list)
+{
+    if(!list.head) return nullptr;
 
     Node<T>* slowPtr = list.head;
     Node<T>* fastPtr = list.head;
@@ -161,32 +200,95 @@ bool List<T>::doesLoopExist(List list)
 
         if(slowPtr == fastPtr)
         {
-            return true;
+            return slowPtr;
         }
     }
-    return false;
+
+    return nullptr;
 }
 
 template<typename T>
-List<T> List<T>::createLoopedList(int pos)
+int List<T>::calculateLoopLength(List list)
 {
-    Node<T>* midNode;
-    List <T> list;
-    for(int i=0;i<pos*2;i++)
+    Node<T>* startingPoint = getLoopStartingPoint(list);
+    int length = 0;
+
+    if(startingPoint)
     {
-        if(i==pos)
+        Node<T>* temp = startingPoint;
+
+        //kickstart
+        temp = temp->next;
+        length++;
+
+        while(temp!=startingPoint)
         {
-          midNode = list.push_back(i);
-        }
-        else
-        {
-            list.push_back(i);
+            temp = temp->next;
+            length++;
         }
     }
 
-    list.tail->next = midNode;
+    return length;
+}
 
+template<typename T>
+List<T> List<T>::reverse(List list)
+{
+    Node<T>* p = nullptr;
+    Node<T>* c = list.head;
+    Node<T>* n = nullptr;
+
+    while(c)
+    {
+        n = c->next;
+        c->next = p;
+        p = c;
+        c = n;
+    }
+    list.head = p;
     return list;
+}
+
+template<typename T>
+List<T> List<T>::add(List a, List b)
+{
+    List aReverse = reverse(a);
+    List bReverse = reverse(b);
+    List sumList;
+
+    int d1,d2;
+    int carry = 0;
+    int sum;
+
+    Node<T>* aPtr = aReverse.head;
+    Node<T>* bPtr = bReverse.head;
+
+    while(aPtr || bPtr)
+    {
+        if(aPtr)
+        {
+            d1 = aPtr->data;
+            aPtr = aPtr->next;
+        }
+        else d1=0;
+
+        if(bPtr)
+        {
+            d2 = bPtr->data;
+            bPtr = bPtr->next;
+        }
+        else d2=0;
+
+        sum = (d1+d2+carry)%10;
+        carry = (d1+d2+carry)>9?1:0;
+        sumList.push_back(Node<int>(sum));
+    }
+
+    if(carry) sumList.push_back(Node<int>(carry));
+
+    sumList.reverse_iterative();
+
+    return sumList;
 }
 
 #endif // LIST_H
