@@ -8,13 +8,13 @@ using namespace std;
 
 #define printFnName     cout << __func__ << endl;
 
-List<int> createList(bool print=true)
+List<int> createList(int size, bool print=true)
 {
     printFnName
 
     List<int> myList;
 
-    for(int i=0;i<10;i++)
+    for(int i=0;i<size;i++)
     {
         myList.push_back(Node<int>(std::rand() % 10));
     }
@@ -40,8 +40,8 @@ void reverse()
 {
     printFnName
 
-    List<int> a = createList();
-    List<int> b = createList();
+    List<int> a = createList(10);
+    List<int> b = createList(10);
 
     a.reverse_iterative();
     a.print();
@@ -54,7 +54,7 @@ void detectLoop()
 {
     printFnName
 
-    List<int> list = createList();
+    List<int> list = createList(10);
     List<int> loopedList = createLoopedList();
 
     cout << "1. " << (List<int>::doesLoopExist(list) ? "Loop exists" : "Loop does not exist") << endl;
@@ -90,8 +90,8 @@ void sum()
 {
     printFnName
 
-    List<int> a = createList();
-    List<int> b = createList();
+    List<int> a = createList(3);
+    List<int> b = createList(3);
 
     List<int> sum = List<int>::add(a,b);
 
@@ -114,11 +114,19 @@ void detectYBridge()
     cout << "1. " << ((List<int>::doesYBridgeExist(a,b)==nullptr) ? "Y bridge does not exists" : "Y bridge exists") << endl;
 
     cout << "------------Normal List 1------------------" << endl;
-    List<int> c = createList();
+    List<int> c = createList(10);
     cout << "------------Normal List 2------------------" << endl;
-    List<int> d = createList();
+    List<int> d = createList(10);
 
     cout << "1. " << ((List<int>::doesYBridgeExist(c,d)==nullptr) ? "Y bridge does not exists" : "Y bridge exists") << endl;
+}
+
+void removeNthFromBack()
+{
+    List<int> a = createList(10);
+
+    a.removeNodeFromBack(5);
+    a.print();
 }
 
 int main()
@@ -134,7 +142,9 @@ int main()
 
 //    sum();
 
-    detectYBridge();
+//    detectYBridge();
+
+    removeNthFromBack();
 
     return 0;
 }
