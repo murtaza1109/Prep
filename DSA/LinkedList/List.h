@@ -43,8 +43,11 @@ public:
     static bool doesLoopExist(List list);
     static Node<T>* getLoopStartingPoint(List list);
     static int calculateLoopLength(List list);
+
     static List reverse(List list);
     static List<T> add(List a, List b);
+
+    static void createYBridgeList();
 
 
     int count{0};
@@ -129,7 +132,7 @@ Node<T>* List<T>::reverse_recursive(Node<T>* node)
 {
     if(!node || !node->next)
     {
-        return head;
+        return node;
     }
 
     Node<T>* newHead = reverse_recursive(node->next);
@@ -281,10 +284,10 @@ List<T> List<T>::add(List a, List b)
 
         sum = (d1+d2+carry)%10;
         carry = (d1+d2+carry)>9?1:0;
-        sumList.push_back(Node<int>(sum));
+        sumList.push_back(Node<T>(sum));
     }
 
-    if(carry) sumList.push_back(Node<int>(carry));
+    if(carry) sumList.push_back(Node<T>(carry));
 
     sumList.reverse_iterative();
 
