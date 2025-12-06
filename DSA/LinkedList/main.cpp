@@ -98,18 +98,43 @@ void sum()
     sum.print();
 }
 
+void detectYBridge()
+{
+    printFnName
+
+    List<int> a,b;
+
+    List<int>::createYBridgeList(a,b);
+
+    cout << "------------Y bridge List 1------------------" << endl;
+    a.print();
+    cout << "------------Y bridge List 2------------------" << endl;
+    b.print();
+
+    cout << "1. " << ((List<int>::doesYBridgeExist(a,b)==nullptr) ? "Y bridge does not exists" : "Y bridge exists") << endl;
+
+    cout << "------------Normal List 1------------------" << endl;
+    List<int> c = createList();
+    cout << "------------Normal List 2------------------" << endl;
+    List<int> d = createList();
+
+    cout << "1. " << ((List<int>::doesYBridgeExist(c,d)==nullptr) ? "Y bridge does not exists" : "Y bridge exists") << endl;
+}
+
 int main()
 {
 
     std::srand(std::time(nullptr));
 
-    reverse();
+//    reverse();
 
-    detectLoop();
-    loopStartPoint();
-    loopLength();
+//    detectLoop();
+//    loopStartPoint();
+//    loopLength();
 
-    sum();
+//    sum();
+
+    detectYBridge();
 
     return 0;
 }

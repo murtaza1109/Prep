@@ -47,7 +47,10 @@ public:
     static List reverse(List list);
     static List<T> add(List a, List b);
 
-    static void createYBridgeList();
+    static void createYBridgeList(List& a, List& b);
+    static Node<T> *doesYBridgeExist(const List& a, const List& b);
+
+    void removeNodeFromBack(int n);
 
 
     int count{0};
@@ -294,4 +297,98 @@ List<T> List<T>::add(List a, List b)
     return sumList;
 }
 
+template<typename T>
+void List<T>::createYBridgeList(List &a, List &b)
+{
+    Node<T>* temp;
+
+    for(int i=0;i<10;i++)
+    {
+        a.push_back(Node<int>(std::rand() % 10));
+        if(i==5)
+        {
+            temp = a.tail;
+        }
+    }
+
+    for(int i=0;i<20;i++)
+    {
+        b.push_back(Node<int>(std::rand() % 10));
+    }
+
+    b.tail->next = temp;
+}
+
+template<typename T>
+Node<T>* List<T>::doesYBridgeExist(const List &a, const List &b)
+{
+    Node<T>* p1 = a.head;
+    Node<T>* p2 = b.head;
+
+    while(p1!=p2)
+    {
+        p1 = (p1==nullptr) ? b.head : p1->next;
+        p2 = (p2==nullptr) ? a.head : p2->next;
+    }
+
+    return p1;
+}
+
+ template<typename T>
+void List<T>::removeNodeFromBack(int n)
+{
+    if(!head) return;
+
+    Node<T>* leadingPtr = head;
+    Node<T>* trailingPtr = head;
+
+    for(int i=0;i<n;i++)
+    {
+        leadingPtr = leadingPtr->next;
+        if (!leadingPtr) return;
+    }
+
+    if(leadingPtr==nullptr)
+    {
+        Node<T>* nodeToRemove = head;
+        head = head->next;
+        delete nodeToRemove;
+        return;
+    }
+
+    while(leadingPtr->next)
+    {
+        leadingPtr = leadingPtr->next;
+        trailingPtr = trailingPtr->next;
+    }
+
+    Node<T>* nodeToRemove = trailingPtr->next;
+    trailingPtr->next = trailingPtr->next->next;
+    delete nodeToRemove;
+}
+
 #endif // LIST_H
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
