@@ -137,11 +137,12 @@ TEST_F(ListTest, GetLoopStartingPointReturnsNullForNormalList) {
 }
 
 TEST_F(ListTest, GetLoopStartingPointReturnsNodeForLoopedList) {
-    List list = List::createLoopedList(5);
+    int pos = 5;
+    List list = List::createLoopedList(pos);
     Node* loopStart = List::getLoopStartingPoint(list);
     
     EXPECT_NE(loopStart, nullptr);
-    EXPECT_EQ(loopStart->data, 5); // Based on createLoopedList implementation
+    EXPECT_EQ(loopStart->data, pos); // Based on createLoopedList implementation
 }
 
 TEST_F(ListTest, CalculateLoopLengthReturnsZeroForNormalList) {
@@ -150,11 +151,12 @@ TEST_F(ListTest, CalculateLoopLengthReturnsZeroForNormalList) {
 }
 
 TEST_F(ListTest, CalculateLoopLengthForLoopedList) {
-    List list = List::createLoopedList(5);
+    int pos = 5;
+    List list = List::createLoopedList(pos);
     int loopLength = List::calculateLoopLength(list);
     
     EXPECT_GT(loopLength, 0);
-    EXPECT_EQ(loopLength, 5); // Based on createLoopedList creating loop at pos 5
+    EXPECT_EQ(loopLength, pos); // Based on createLoopedList creating loop at pos 5
 }
 
 // ============================================================================
@@ -235,7 +237,7 @@ TEST_F(ListTest, RemoveLastNode) {
 
 TEST_F(ListTest, RemoveMiddleNodeFromBack) {
     List list = createListWithValues({1, 2, 3, 4, 5});
-    list.removeNodeFromBack(3); // Remove node with value 3
+    list.removeNodeFromBack(3); // Remove 3rd node from back
     
     EXPECT_TRUE(verifyListContents(list, {1, 2, 4, 5}));
 }
