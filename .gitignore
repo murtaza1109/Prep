@@ -44,3 +44,17 @@
 /Multithreading/build-Producer-Consumer-Desktop_Qt_6_7_0_MSVC2019_64bit-Debug
 /Multithreading/build-Producer-Consumer-Desktop_Qt_6_7_0_MSVC2019_64bit-Release
 /DSA/build
+
+# Test executables
+*_tests
+*_test
+list_tests
+
+# Qt files
+*.pro.user*
+*.autosave
+Makefile
+.qmake.stash
+
+# macOS
+.DS_Store
