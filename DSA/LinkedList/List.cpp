@@ -24,19 +24,13 @@ List::List() :
 Node* List::push_back(Node value)
 {
     Node* newNode = new Node(value.data);
-    Node* end = findEnd();
 
-    if(end == nullptr)
-    {
-        head = newNode;
-    }
-    else
-    {
-        end->next = newNode;
-    }
-    tail = newNode;
+    if(!head) head = newNode;
+    else tail->next = newNode;
 
-    return newNode;
+    count++;
+
+    return tail = newNode;
 }
 
 void List::print()
